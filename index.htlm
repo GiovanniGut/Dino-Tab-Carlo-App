@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DinoMath di Carlo</title>
+  <style>
+    body { margin:0; font-family: system-ui, sans-serif; background:#052e2b; color:#eafff3; }
+    .wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+    .card { max-width:560px; width:100%; background:#0b3b32; border:1px solid #1ea67255; border-radius:16px; padding:24px; box-shadow:0 10px 30px #0006;}
+    button { background:#16a34a; color:white; border:0; border-radius:12px; padding:12px 16px; font-weight:700; }
+    button:hover { filter:brightness(1.1); }
+    .choices { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:16px; }
+    .small { opacity:.8; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>🦖 DinoMath di Carlo</h1>
+      <p id="q" class="small">Pronto?</p>
+      <div id="choices" class="choices"></div>
+      <p class="small">Punteggio: <b id="score">0</b> · Record: <b id="best">0</b></p>
+      <button id="restart">Ricomincia</button>
+    </div>
+  </div>
+  <script>
+    const qEl = document.getElementById('q');
+    const cEl = document.getElementById('choices');
+    const sEl = document.getElementById('score');
+    const bEl = document.getElementById('best');
+    const rEl = document.getElementById('restart');
+    let score = 0, best = Number(localStorage.getItem('dino-best')||0);
+    bEl.textContent = best;
+
+    function newQuestion() {
+      const a = 1+Math.floor(Math.random()*10);
+      const b = 1+Math.floor(Math.random()*10);
+      const result = a + b;
+      qEl.textContent = `Quanto fa ${a} + ${b}?`;
+      const answers = new Set([result]);
+      while (answers.size < 3) {
+        const delta = 1+Math.floor(Math.random()*4);
+        answers.add(result + (Math.random()<.5?-delta:delta));
+      }
+      cEl.innerHTML = '';
+      [...answers].sort(()=>Math.random()-0.5).forEach(val=>{
+        const btn = document.createElement('button');
+        btn.textContent = val;
+        btn.onclick = ()=>pick(val, result);
+        cEl.appendChild(btn);
+      });
+    }
+    function pick(val, result){
+      if (val===result){ score++; if(score>best){ best=score; localStorage.setItem('dino-best', best); } }
+      else { score = 0; }
+      sEl.textContent = score; bEl.textContent = best; newQuestion();
+    }
+    rEl.onclick = ()=>{ score=0; sEl.textContent=score; newQuestion(); };
+    newQuestion();
+  </script>
+</body>
+</html>
