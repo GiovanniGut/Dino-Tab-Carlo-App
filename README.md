@@ -4,7 +4,7 @@ Un piccolo gioco di matematica a tema dinosauri, creato per Carlo!
 Sfida i dinosauri con le operazioni e cerca di battere il tuo record.
 
 ## 🎮 Gioca subito
-👉 [**Clicca qui per giocare su GitHub Pages**](https://giovannigut.github.io/dino-tab-carlo-app/)
+👉 [**Clicca qui per giocare su GitHub Pages**](https://giovannigut.github.io/Dino-Tab-Carlo-App/)
 
 ## 📜 Come funziona
 - Viene generata una domanda a caso.
